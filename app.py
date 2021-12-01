@@ -33,9 +33,11 @@ def get(username):
     elif auth.startswith("Basic "):
         auth = auth.replace("Basic ", "", 1)
         decode_data = base64.b64decode(auth).decode()
-        i = x.find(":")
-        user_id, password = x[:i], x[i+1:]
+        i = decode_data.find(":")
+        user_id, password = decode_data[:i], decode_data[i+1:]
         print(user_id, password)
+        if db_manager.is_exist(user_id, password):
+            print(username, user_id)
     else:
         return jsonify({"message": "Authentication Faild"}), 401
 

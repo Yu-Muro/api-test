@@ -51,10 +51,13 @@ def add_new_user(user_id, password, nickname, comment=""):
     session.close()
 
 
-def is_exist(user_id):
-    result = session.query(User.user_id, User.nickname).filter(User.user_id == user_id).all()
+def is_exist(user_id, password):
+    result = session.query(User.user_id, User.nickname).filter(User.user_id == user_id, User.password == password).all()
     session.close()
-    return result
+    if result == []:
+        return False
+    else:
+        return True
 
 if __name__ == "__main__":
     add_default_user()
