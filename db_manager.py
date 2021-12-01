@@ -56,4 +56,5 @@ def is_exist(user_id):
     session.close()
     return result
 
-add_default_user()
+if __name__ == "__main__":
+    add_default_user()
