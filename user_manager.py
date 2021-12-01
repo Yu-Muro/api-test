@@ -1,5 +1,7 @@
 from flask import abort, jsonify
 
+import db_manager
+
 def signup_user(json):
     try:
         # データが含まれているかチェック
@@ -29,4 +31,5 @@ def signup_user(json):
             "nickname": user_id
         }
     }
+    db_manager.add_new_user(user_id, password, "")
     return jsonify(result), 200

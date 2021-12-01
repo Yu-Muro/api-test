@@ -35,3 +35,15 @@ def add_default_user():
     )
     session.add(default_user)
     session.commit()
+
+def add_new_user(user_id, password, nickname, comment=""):
+    if nickname == "":
+        nickname = user_id
+    new_user = User(
+        user_id = user_id,
+        password = password,
+        nickname = nickname,
+        comment = comment
+    )
+    session.add(new_user)
+    session.commit()
