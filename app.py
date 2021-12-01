@@ -28,11 +28,14 @@ def signup():
 @app.route("/users/<username>", methods=["GET"])
 def get(username):
     auth = request.headers.get("Authorization")
-    if auth.startswith("Basic "):
+    if auth == None:
+        return jsonify({"message": "Authentication Faild"}), 401
+    elif auth.startswith("Basic "):
         auth = auth.replace("Basic ", "", 1)
         decode_data = base64.b64decode(auth).decode()
         i = x.find(":")
-        user_id, passeord = x[:i], x[i+1:]
+        user_id, password = x[:i], x[i+1:]
+        print(user_id, password)
     else:
         return jsonify({"message": "Authentication Faild"}), 401
 

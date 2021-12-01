@@ -35,6 +35,7 @@ def add_default_user():
     )
     session.add(default_user)
     session.commit()
+    session.close()
 
 def add_new_user(user_id, password, nickname, comment=""):
     if nickname == "":
@@ -47,8 +48,12 @@ def add_new_user(user_id, password, nickname, comment=""):
     )
     session.add(new_user)
     session.commit()
+    session.close()
 
 
 def is_exist(user_id):
     result = session.query(User.user_id, User.nickname).filter(User.user_id == user_id).all()
+    session.close()
     return result
+
+add_default_user()
