@@ -1,6 +1,7 @@
 import json
 import os
 import sys
+import base64
 
 from flask import Flask, abort, jsonify, request
 
@@ -27,7 +28,13 @@ def signup():
 @app.route("/users/<username>", methods=["GET"])
 def get(username):
     auth = request.headers.get("Authorization")
-    print(auth)
+    if auth.startswith("Basic "):
+        auth = auth.replace("Basic ", "", 1)
+        decode_data = base64.b64decode(auth).decode()
+        i = x.find(":")
+        user_id, passeord = x[:i], x[i+1:]
+    else:
+        return jsonify({"message": "Authentication Faild"}), 401
 
 
 if __name__ == "__main__":
