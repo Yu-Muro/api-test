@@ -38,8 +38,25 @@ def get(username):
         print(user_id, password)
         if db_manager.is_exist(user_id, password):
             print(username, user_id)
+        else:
+            return jsonify({"message": "Authentication Faild"}), 401
     else:
         return jsonify({"message": "Authentication Faild"}), 401
+    user = db_manager.get_user(username)
+    print("get user", user)
+    if user == []:
+        return jsonify({"message": "No User found"}), 404
+    else:
+        result = {
+            "message": "User details by user_id",
+            "user": {
+                "user_id": user[0].user_id,
+                "nickname": user[0].nickname,
+            }
+        }
+        if user.comment != None:
+            result["user"]["comment"] = user[0].comment
+    return jsonify(result), 200
 
 
 if __name__ == "__main__":

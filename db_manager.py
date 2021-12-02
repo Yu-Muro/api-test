@@ -59,5 +59,10 @@ def is_exist(user_id, password):
     else:
         return True
 
+def get_user(user_id):
+    result = session.query(User.user_id, User.nickname, User.comment).filter(User.user_id == user_id).all()
+    session.close()
+    return result
+
 if __name__ == "__main__":
     add_default_user()
