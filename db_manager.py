@@ -49,6 +49,7 @@ def add_new_user(user_id, password, nickname, comment=""):
     session.add(new_user)
     session.commit()
     session.close()
+    return None
 
 
 def is_exist(user_id, password):
