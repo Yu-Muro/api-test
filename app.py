@@ -25,9 +25,7 @@ def signup():
     return user_manager.signup_user(json)
 
 
-@app.route("/users/<username>", methods=["GET"])
-def get(username):
-    auth = request.headers.get("Authorization")
+def check_auth(auth):
     if auth == None:
         return jsonify({"message": "Authentication Faild"}), 401
     elif auth.startswith("Basic "):
@@ -35,13 +33,20 @@ def get(username):
         decode_data = base64.b64decode(auth).decode()
         i = decode_data.find(":")
         user_id, password = decode_data[:i], decode_data[i+1:]
-        print(user_id, password)
         if db_manager.is_exist(user_id, password):
-            print(username, user_id)
+            return user_id, 200
         else:
             return jsonify({"message": "Authentication Faild"}), 401
     else:
         return jsonify({"message": "Authentication Faild"}), 401
+
+
+@app.route("/users/<username>", methods=["GET"])
+def get(username):
+    auth = request.headers.get("Authorization")
+    check = check_auth(auth)
+    if check[1] != 200:
+        return check
     user = db_manager.get_user(username)
     print("get user", user)
     if user == []:
@@ -58,6 +63,23 @@ def get(username):
             result["user"]["comment"] = user[0].comment
     return jsonify(result), 200
 
+
+@app.route("/users/<username>", methods=["PATCH"])
+def update(username):
+    auth = request.headers.get("Authorization")
+    check = check_auth(auth)
+    if check[1] != 200:
+        return check
+    if username != check[0]:
+        return jsonify({
+            "message": "No Permission for Update"
+        }), 403
+    user = db_manager.get_user(username)
+    print("get user", user)
+    if user == []:
+        return jsonify({"message": "No User found"}), 404
+    json = request.get_json()
+    return user_manager.update_user(json)
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 5000))

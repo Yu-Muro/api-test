@@ -33,3 +33,14 @@ def signup_user(json):
     }
     db_manager.add_new_user(user_id, password, "")
     return jsonify(result), 200
+
+
+def update_user(json):
+    try:
+        nickname = json['nickname']
+        comment = json['comment']
+    except KeyError:
+        return jsonify({
+            "message": "User updation failed",
+            "cause": "required nickname or comment"
+        }), 400
