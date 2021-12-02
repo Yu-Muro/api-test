@@ -54,7 +54,7 @@ def get(username):
                 "nickname": user[0].nickname,
             }
         }
-        if user.comment != None:
+        if user[0].comment != None:
             result["user"]["comment"] = user[0].comment
     return jsonify(result), 200
 
