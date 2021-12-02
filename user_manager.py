@@ -35,7 +35,7 @@ def signup_user(json):
     return jsonify(result), 200
 
 
-def update_user(json):
+def update_user(username, json):
     try:
         nickname = json['nickname']
         comment = json['comment']
@@ -44,3 +44,20 @@ def update_user(json):
             "message": "User updation failed",
             "cause": "required nickname or comment"
         }), 400
+    if "user_id" in json.keys() or "password" in json.keys():
+        return jsonify({
+            "message": "User updation failed",
+            "cause": "not updatable user_id and password"
+        }), 400
+    db_manager.update_user(user_id, nickname, comment)
+    if nickname == "":
+        nickname = username
+    return jsonify({
+        "message": "User successfully updated",
+        "recipe": [
+            {
+                "nickname": nickname,
+                "comment": comment
+            }
+        ]
+    }), 200

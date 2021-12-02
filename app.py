@@ -79,7 +79,7 @@ def update(username):
     if user == []:
         return jsonify({"message": "No User found"}), 404
     json = request.get_json()
-    return user_manager.update_user(json)
+    return user_manager.update_user(username, json)
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 5000))
