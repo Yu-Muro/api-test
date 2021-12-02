@@ -38,6 +38,7 @@ def add_default_user():
     session.close()
 
 def add_new_user(user_id, password, nickname, comment=""):
+    session.rollback()
     if nickname == "":
         nickname = user_id
     new_user = User(
@@ -67,3 +68,4 @@ def get_user(user_id):
 
 if __name__ == "__main__":
     add_default_user()
+    print("session closed")
