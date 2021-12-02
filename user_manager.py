@@ -49,7 +49,7 @@ def update_user(username, json):
             "message": "User updation failed",
             "cause": "not updatable user_id and password"
         }), 400
-    db_manager.update_user(user_id, nickname, comment)
+    db_manager.update_user(username, nickname, comment)
     if nickname == "":
         nickname = username
     return jsonify({
