@@ -73,6 +73,12 @@ def update_user(user_id, nickname, comment):
     session.commit()
     session.close()
 
+def delete_user(user_id):
+    user = session.query(User).filter(User.user_id == user_id).first()
+    session.delete(user)
+    session.commit()
+    session.close()
+
 if __name__ == "__main__":
     add_default_user()
     print("session closed")

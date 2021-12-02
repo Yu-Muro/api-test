@@ -61,3 +61,7 @@ def update_user(username, json):
             }
         ]
     }), 200
+
+def delete_user(username):
+    db_manager.delete_user(username)
+    return jsonify({"message": "Account and user successfully removed"}), 200

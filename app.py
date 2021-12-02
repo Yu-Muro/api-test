@@ -81,6 +81,16 @@ def update(username):
     json = request.get_json()
     return user_manager.update_user(username, json)
 
+
+@app.route("/close", methods=["POST"])
+def delete():
+    auth = request.headers.get("Authorization")
+    check = check_auth(auth)
+    if check[1] != 200:
+        return check
+    return user_manager.delete_user(check[0])
+
+
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
