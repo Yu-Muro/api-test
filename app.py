@@ -48,7 +48,6 @@ def get(username):
     if check[1] != 200:
         return check
     user = db_manager.get_user(username)
-    print("get user", user)
     if user == []:
         return jsonify({"message": "No User found"}), 404
     else:

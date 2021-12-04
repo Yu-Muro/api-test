@@ -24,6 +24,26 @@ def signup_user(json):
             "message": "Account creation failed",
             "cause": "length password"
         }), 400
+    for k in user_id:
+        code = ord(i)
+        if code < 33 or 126 < code:
+            return jsonify({
+                "message": "Account creation failed",
+                "cause": "pattern user_id"
+            }), 400
+    for k in password:
+        code = ord(i)
+        if code < 33 or 126 < code:
+            return jsonify({
+                "message": "Account creation failed",
+                "cause": "pattern password"
+            }), 400
+    user = db_manager.get_user(user_id)
+    if user != []:
+        return jsonify({
+            "message": "Account creation failed",
+            "cause": "already same user_id is used"
+        }), 400
     result = {
         "message": "Account successfully created",
         "user": {
