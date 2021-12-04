@@ -25,14 +25,14 @@ def signup_user(json):
             "cause": "length password"
         }), 400
     for k in user_id:
-        code = ord(i)
+        code = ord(k)
         if code < 33 or 126 < code:
             return jsonify({
                 "message": "Account creation failed",
                 "cause": "pattern user_id"
             }), 400
     for k in password:
-        code = ord(i)
+        code = ord(k)
         if code < 33 or 126 < code:
             return jsonify({
                 "message": "Account creation failed",
